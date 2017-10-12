@@ -2,10 +2,21 @@ package utils
 
 import (
 	"fmt"
+	"time"
 	"strings"
 )
 
-// 带颜色的输出
+func Debug(msg string, time ...time.Time) {
+	var d string
+	if len(time) > 0 {
+		d = Date("m-d H:i:s", time[0])
+	} else {
+		d = Date("m-d H:i:s")
+	}
+
+	fmt.Printf("[%s] %s\n", d, msg)
+}
+
 func Println(v ...interface{}) {
 	l := v[len(v)-1]
 
@@ -34,7 +45,7 @@ func Println(v ...interface{}) {
 		str = append(str, pref)
 	}
 
-	for i := 0; i<n; i++ {
+	for i := 0; i < n; i++ {
 		str = append(str, "%v")
 	}
 

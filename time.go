@@ -46,3 +46,25 @@ func StrToTime(value string) (time.Time, error) {
 	return t, e
 }
 
+func Timestamp(v ...interface{}) int64 {
+	b := 10
+	if len(v) > 0 {
+		b = v[0].(int)
+	}
+
+	var n time.Time
+	if len(v) > 1 {
+		n = v[1].(time.Time)
+	} else {
+		n = time.Now()
+	}
+
+	switch b {
+	case 10:
+		return n.UnixNano() / int64(time.Second)
+	case 13:
+		return n.UnixNano() / int64(time.Millisecond)
+	default:
+		return n.UnixNano() / int64(time.Millisecond)
+	}
+}

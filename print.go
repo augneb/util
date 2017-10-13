@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 	"strings"
+
+	"github.com/liudng/godump"
 )
 
 func Debug(msg string, time ...time.Time) {
@@ -58,3 +60,14 @@ func Println(v ...interface{}) {
 	fmt.Printf(strings.Join(str, " "), v...)
 }
 
+func Dump(v ...interface{}) string {
+	l := len(v)
+
+	if l == 1 {
+		godump.Dump(v[0])
+	} else if l > 1 {
+		return godump.Sdump(v[0])
+	}
+
+	return ""
+}

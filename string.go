@@ -3,6 +3,7 @@ package utils
 import (
 	"regexp"
 	"strings"
+	"unicode"
 )
 
 // 驼峰转换为下划线
@@ -17,4 +18,15 @@ func ToSnakeCase(str string, toLower bool) string {
 	}
 
 	return snake
+}
+
+func Ucfirst(s string) string {
+	if s == "" {
+		return s
+	}
+
+	a := []rune(s)
+	a[0] = unicode.ToUpper(a[0])
+
+	return string(a)
 }

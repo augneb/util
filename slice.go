@@ -2,7 +2,7 @@ package utils
 
 import (
 	"strings"
-	"sort"
+	"reflect"
 )
 
 // 去除空行
@@ -17,13 +17,14 @@ func ReduceEmptyElements(items []string) []string {
 	return result
 }
 
-func InSlice(target string, array []string) bool {
-	sort.Strings(array)
-	i := sort.SearchStrings(array, target)
-	if i < len(array) && array[i] == target {
-		return true
+func InSlice(elt, slice interface{}) bool {
+	v := reflect.Indirect(reflect.ValueOf(slice))
+
+	for i := 0; i < v.Len(); i++ {
+		if reflect.DeepEqual(v.Index(i).Interface(), elt) {
+			return true
+		}
 	}
 
 	return false
 }
-

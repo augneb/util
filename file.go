@@ -28,8 +28,8 @@ func FileCopy(dest, source string) error {
 		return err
 	}
 
-	defer f.Close()
 	_, err = io.Copy(df, f)
+	f.Close()
 
 	return err
 }

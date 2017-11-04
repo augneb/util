@@ -37,7 +37,17 @@ func Println(v ...interface{}) {
 		}
 	}
 
-	str := []string{Date("[m-d H:i:s]")}
+	str := []string{}
+
+	switch v[0].(type) {
+	case string:
+		if v[0].(string) == "\n" {
+			str = append(str, "\n")
+			v = v[1:]
+		}
+	}
+
+	str = append(str, Date("[m-d H:i:s]"))
 
 	n := len(v)
 	if pref != "" {

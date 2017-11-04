@@ -1,4 +1,4 @@
-package utils
+package util
 
 func CloneBytes(b []byte) []byte {
 	if b == nil {

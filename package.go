@@ -25,10 +25,12 @@ func ReadPackage(ctx context.Context, conn net.Conn, call ReadPackageCall, packE
 	eofLen := len(eof)
 
 	for {
-		select {
-		case <-ctx.Done():
-			return errors.New("timeout")
-		default:
+		if ctx != nil {
+			select {
+			case <-ctx.Done():
+				return errors.New("timeout")
+			default:
+			}
 		}
 
 		buffer := make([]byte, 256)

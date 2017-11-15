@@ -3,8 +3,6 @@ package util
 import (
 	"fmt"
 	"time"
-	"strings"
-
 	"github.com/liudng/godump"
 )
 
@@ -19,7 +17,23 @@ func Debug(msg string, time ...time.Time) {
 	fmt.Printf("[%s] %s\n", d, msg)
 }
 
+func Print(v ...interface{}) {
+	printWithColor(false, false, v)
+}
+
+func PrintLog(v ...interface{}) {
+	printWithColor(true, false, v)
+}
+
 func Println(v ...interface{}) {
+	printWithColor(false, true, v)
+}
+
+func PrintlnLog(v ...interface{}) {
+	printWithColor(true, true, v)
+}
+
+func printWithColor(date bool, eof bool, v []interface{}) {
 	l := v[len(v)-1]
 
 	pref := ""
@@ -27,57 +41,72 @@ func Println(v ...interface{}) {
 	case string:
 		switch val {
 		case "blue":
-			pref = "\033[44;37;1m"
+			pref = "\033[49;34;1m"
 		case "green":
-			pref = "\033[42;37;1m"
+			pref = "\033[49;32;1m"
 		case "red":
-			pref = "\033[41;37;1m"
+			pref = "\033[49;31;1m"
 		case "yellow":
-			pref = "\033[43;37;1m"
+			pref = "\033[49;33;1m"
 		}
 	}
 
-	str := []string{}
+	str := ""
 
 	switch v[0].(type) {
 	case string:
 		if v[0].(string) == "\n" {
-			str = append(str, "\n")
+			str += "\n"
 			v = v[1:]
 		}
 	}
 
-	str = append(str, Date("[m-d H:i:s]"))
+	if date {
+		str += Date("[m-d H:i:s] ")
+	}
 
 	n := len(v)
 	if pref != "" {
 		n--
 		v = v[:n]
-
-		str = append(str, pref)
+		str += pref
 	}
 
 	for i := 0; i < n; i++ {
-		str = append(str, "%v")
+		str += "%v "
 	}
+
+	str = str[:len(str)-1]
 
 	if pref != "" {
-		str = append(str, "\033[0m")
+		str += "\033[0m"
 	}
 
-	str = append(str, "\n")
+	if eof {
+		str += "\n"
+	}
 
-	fmt.Printf(strings.Join(str, " "), v...)
+	fmt.Printf(str, v...)
 }
 
 func Dump(v ...interface{}) string {
 	l := len(v)
-
-	if l == 1 {
-		godump.Dump(v[0])
-	} else if l > 1 {
-		return godump.Sdump(v[0])
+	s := false
+	if l > 1 {
+		if v, ok := v[l-1].(bool); ok && v {
+			s = true
+			l--
+		}
 	}
 
-	return ""
+	r := ""
+	for i := 0; i < l; i++ {
+		if s {
+			r += godump.Sdump(v[i])
+		} else {
+			godump.Dump(v[i])
+		}
+	}
+
+	return r
 }

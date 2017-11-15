@@ -6,7 +6,7 @@ import (
 )
 
 // 去除空行
-func ReduceEmptyElements(items []string) []string {
+func SliceStringFilter(items []string) []string {
 	result := []string{}
 	for _, text := range items {
 		if strings.Trim(text, " ") != "" {
@@ -17,7 +17,7 @@ func ReduceEmptyElements(items []string) []string {
 	return result
 }
 
-func InSlice(elt, slice interface{}) bool {
+func SliceIn(elt, slice interface{}) bool {
 	v := reflect.Indirect(reflect.ValueOf(slice))
 
 	for i := 0; i < v.Len(); i++ {
@@ -29,8 +29,8 @@ func InSlice(elt, slice interface{}) bool {
 	return false
 }
 
-func UniqueSliceString(s *[]string) {
-	f := make(map[string]bool)
+func SliceStringUnique(s *[]string) {
+	f := make(map[string]bool, len(*s))
 	t := 0
 	for i, v := range *s {
 		if _, ok := f[v]; !ok {

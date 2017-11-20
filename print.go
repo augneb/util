@@ -21,7 +21,7 @@ func Print(v ...interface{}) {
 	printWithColor(false, false, v)
 }
 
-func PrintLog(v ...interface{}) {
+func LogPrint(v ...interface{}) {
 	printWithColor(true, false, v)
 }
 
@@ -29,7 +29,7 @@ func Println(v ...interface{}) {
 	printWithColor(false, true, v)
 }
 
-func PrintlnLog(v ...interface{}) {
+func LogPrintln(v ...interface{}) {
 	printWithColor(true, true, v)
 }
 

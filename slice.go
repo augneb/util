@@ -17,18 +17,6 @@ func SliceStringFilter(items []string) []string {
 	return result
 }
 
-func SliceIn(elt, slice interface{}) bool {
-	v := reflect.Indirect(reflect.ValueOf(slice))
-
-	for i := 0; i < v.Len(); i++ {
-		if reflect.DeepEqual(v.Index(i).Interface(), elt) {
-			return true
-		}
-	}
-
-	return false
-}
-
 func SliceStringUnique(s *[]string) {
 	f := make(map[string]bool, len(*s))
 	t := 0
@@ -41,4 +29,16 @@ func SliceStringUnique(s *[]string) {
 	}
 
 	*s = (*s)[:t]
+}
+
+func SliceIn(elt, slice interface{}) bool {
+	v := reflect.Indirect(reflect.ValueOf(slice))
+
+	for i := 0; i < v.Len(); i++ {
+		if reflect.DeepEqual(v.Index(i).Interface(), elt) {
+			return true
+		}
+	}
+
+	return false
 }

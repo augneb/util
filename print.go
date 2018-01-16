@@ -2,38 +2,10 @@ package util
 
 import (
 	"fmt"
-	"time"
 	"github.com/liudng/godump"
 )
 
-func Debug(msg string, time ...time.Time) {
-	var d string
-	if len(time) > 0 {
-		d = Date("m-d H:i:s", time[0])
-	} else {
-		d = Date("m-d H:i:s")
-	}
-
-	fmt.Printf("[%s] %s\n", d, msg)
-}
-
-func Print(v ...interface{}) {
-	printWithColor(false, false, v)
-}
-
-func LogPrint(v ...interface{}) {
-	printWithColor(true, false, v)
-}
-
-func Println(v ...interface{}) {
-	printWithColor(false, true, v)
-}
-
-func LogPrintln(v ...interface{}) {
-	printWithColor(true, true, v)
-}
-
-func printWithColor(date bool, eof bool, v []interface{}) {
+func PrintWithColor(v ...interface{}) {
 	l := v[len(v)-1]
 
 	pref := ""
@@ -61,10 +33,6 @@ func printWithColor(date bool, eof bool, v []interface{}) {
 		}
 	}
 
-	if date {
-		str += Date("[m-d H:i:s] ")
-	}
-
 	n := len(v)
 	if pref != "" {
 		n--
@@ -82,9 +50,7 @@ func printWithColor(date bool, eof bool, v []interface{}) {
 		str += "\033[0m"
 	}
 
-	if eof {
-		str += "\n"
-	}
+	str += "\n"
 
 	fmt.Printf(str, v...)
 }

@@ -1,6 +1,6 @@
 package util
 
-func CloneBytes(b []byte) []byte {
+func BytesClone(b []byte) []byte {
 	if b == nil {
 		return nil
 	} else {
